@@ -17,8 +17,9 @@ app.add_middleware(
 )
 
 # Routers are registered here as each module is built:
-# from app.routers import auth_router
-# app.include_router(auth_router.router, prefix="/api/v1/auth", tags=["auth"])
+from app.routers import auth_router, projects_router
+app.include_router(auth_router.router, prefix="/api/v1/auth", tags=["auth"])
+app.include_router(projects_router.router, prefix="/api/v1/projects", tags=["projects"])
 
 
 @app.get("/health", tags=["system"])
