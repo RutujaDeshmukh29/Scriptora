@@ -1,4 +1,4 @@
-import { fetchApi } from "./api-client";
+import { fetchApi } from "@/services/http";
 
 export async function login(email: string, password: string) {
   return fetchApi("/auth/login", {

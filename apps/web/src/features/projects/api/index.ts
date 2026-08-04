@@ -1,4 +1,4 @@
-import { fetchApi } from "./api-client";
+import { fetchApi } from "@/services/http";
 
 export interface Project {
   id: string;
