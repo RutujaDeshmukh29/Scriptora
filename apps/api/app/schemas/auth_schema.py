@@ -1,14 +1,14 @@
-from pydantic import BaseModel, EmailStr
+import uuid
+
+from pydantic import BaseModel, EmailStr, Field
+
+from app.schemas.user_schema import UserPublic
 
 
-class Token(BaseModel):
-    access_token: str
-    refresh_token: str
-    token_type: str = "bearer"
-
-
-class TokenPayload(BaseModel):
-    sub: str | None = None
+class RegisterRequest(BaseModel):
+    name: str = Field(min_length=1, max_length=120)
+    email: EmailStr
+    password: str = Field(min_length=8, max_length=128)
 
 
 class LoginRequest(BaseModel):
@@ -16,13 +16,7 @@ class LoginRequest(BaseModel):
     password: str
 
 
-class RegisterRequest(BaseModel):
-    email: EmailStr
-    name: str
-    password: str
-
-from app.schemas.user_schema import UserResponse
-
-class AuthResponse(BaseModel):
-    user: UserResponse
-    tokens: Token
+class AccessTokenResponse(BaseModel):
+    access_token: str
+    token_type: str = "bearer"
+    user: UserPublic

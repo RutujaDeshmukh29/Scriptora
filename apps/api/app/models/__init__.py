@@ -6,9 +6,14 @@ Import every model here so that:
 
 Add every new model's import to this file the moment it's created.
 """
+from app.models.activity_log import ActivityLog
+from app.models.comment import Comment
+from app.models.comment_reply import CommentReply
+from app.models.notification import Notification, NotificationType
 from app.models.organization import Organization
 from app.models.project import Project, ProjectStatus
 from app.models.project_member import ProjectMember, ProjectRole
+from app.models.refresh_token import RefreshToken
 from app.models.script import Script
 from app.models.user import User
 
@@ -20,4 +25,10 @@ __all__ = [
     "ProjectMember",
     "ProjectRole",
     "Script",
+    "RefreshToken",
+    "Comment",
+    "CommentReply",
+    "Notification",
+    "NotificationType",
+    "ActivityLog",
 ]

@@ -1,0 +1,6 @@
+# Install with: pip install -r requirements-dev.txt
+# (also installs everything in requirements.txt, since -r chains it in)
+-r requirements.txt
+
+pytest==9.1.1
+httpx==0.28.1

@@ -1,24 +1,21 @@
-from typing import Any
-from uuid import UUID
+import uuid
 
+from sqlalchemy import select
 from sqlalchemy.orm import Session
 
 from app.models.user import User
 
 
-class UserRepository:
-    def __init__(self, session: Session):
-        self.session = session
+def get_by_email(db: Session, email: str) -> User | None:
+    return db.execute(select(User).where(User.email == email)).scalar_one_or_none()
 
-    def get_by_id(self, user_id: UUID) -> User | None:
-        return self.session.query(User).filter(User.id == user_id).first()
 
-    def get_by_email(self, email: str) -> User | None:
-        return self.session.query(User).filter(User.email == email).first()
+def get_by_id(db: Session, user_id: uuid.UUID) -> User | None:
+    return db.get(User, user_id)
 
-    def create(self, user_data: dict[str, Any]) -> User:
-        user = User(**user_data)
-        self.session.add(user)
-        self.session.commit()
-        self.session.refresh(user)
-        return user
+
+def create(db: Session, *, name: str, email: str, password_hash: str) -> User:
+    user = User(name=name, email=email, password_hash=password_hash)
+    db.add(user)
+    db.flush()  # assigns user.id without ending the transaction
+    return user
