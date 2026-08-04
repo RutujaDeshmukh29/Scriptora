@@ -3,6 +3,8 @@
 import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import { getProject, Project } from "@/features/projects/api";
+import { ScriptList } from "@/features/scripts/components/ScriptList";
+import { ProjectMembers } from "@/features/projects/components/ProjectMembers";
 
 export default function ProjectDetailsPage() {
   const { projectId } = useParams();
@@ -41,20 +43,15 @@ export default function ProjectDetailsPage() {
       </header>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-        <div className="lg:col-span-2 space-y-6">
-          <div className="bg-neutral-900 border border-neutral-800 rounded-xl p-6">
-            <h2 className="text-xl font-bold text-white mb-4">Scripts</h2>
-            <p className="text-neutral-400 text-sm mb-4">Manage the scripts in this project.</p>
-            {/* TODO: Implement ScriptList component here */}
-            <div className="text-neutral-500 italic text-sm">No scripts yet.</div>
+        <div className="lg:col-span-2">
+          <div className="bg-neutral-950 border border-neutral-800 rounded-xl p-6">
+            <ScriptList projectId={projectId as string} />
           </div>
         </div>
 
-        <div className="space-y-6">
-          <div className="bg-neutral-900 border border-neutral-800 rounded-xl p-6">
-            <h2 className="text-xl font-bold text-white mb-4">Team Members</h2>
-            {/* TODO: Implement ProjectMembers component here */}
-            <div className="text-neutral-500 italic text-sm">Only you have access to this project.</div>
+        <div>
+          <div className="bg-neutral-950 border border-neutral-800 rounded-xl p-6">
+            <ProjectMembers projectId={projectId as string} />
           </div>
         </div>
       </div>

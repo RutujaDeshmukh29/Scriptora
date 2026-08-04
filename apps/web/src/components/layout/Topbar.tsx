@@ -2,6 +2,7 @@
 
 import { useAuthStore } from "@/store/authStore";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 export function Topbar() {
   const logout = useAuthStore((state) => state.logout);
@@ -21,11 +22,10 @@ export function Topbar() {
       <div className="flex-1 md:hidden"></div>
 
       <div className="flex items-center gap-4 ml-auto">
-        <button className="text-neutral-400 hover:text-white transition-colors relative">
-          {/* Notification bell icon placeholder */}
+        <Link href="/notifications" className="text-neutral-400 hover:text-white transition-colors relative">
           <span className="w-5 h-5 block border-2 border-current rounded-full" />
           <span className="absolute top-0 right-0 w-2 h-2 bg-indigo-500 rounded-full" />
-        </button>
+        </Link>
         <button
           onClick={handleLogout}
           className="text-sm font-medium text-neutral-400 hover:text-white transition-colors"

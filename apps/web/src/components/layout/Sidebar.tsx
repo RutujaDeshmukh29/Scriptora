@@ -9,6 +9,7 @@ export function Sidebar() {
   const navItems = [
     { name: "Projects", href: "/dashboard" },
     { name: "Activity Logs", href: "/activity" },
+    { name: "Profile", href: "/profile" },
     { name: "Settings", href: "/settings" },
   ];
 

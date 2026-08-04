@@ -4,8 +4,9 @@ import { useEffect, useState, useCallback } from "react";
 import { useParams } from "next/navigation";
 import { getScript, updateScript, Script } from "@/features/scripts/api";
 import { ScriptEditor } from "@/features/editor/components/Editor";
+import { exportToPdf } from "@/features/editor/utils/exportToPdf";
 import Link from "next/link";
-import { ArrowLeft, Save, CheckCircle2 } from "lucide-react";
+import { ArrowLeft, Save, CheckCircle2, Download } from "lucide-react";
 
 export default function ScriptEditorPage() {
   const { projectId, scriptId } = useParams();
@@ -80,6 +81,13 @@ export default function ScriptEditorPage() {
               Saved
             </span>
           )}
+          <button
+            onClick={() => exportToPdf(content, `${script.title}.pdf`)}
+            className="flex items-center gap-2 bg-neutral-800 hover:bg-neutral-700 text-white px-4 py-2 rounded-lg font-medium text-sm transition-colors"
+          >
+            <Download className="w-4 h-4" />
+            Export PDF
+          </button>
           <button
             onClick={() => handleSave()}
             disabled={saving}

@@ -3,9 +3,11 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { login } from "../api";
+import { useAuthStore } from "@/store/authStore";
 
 export function LoginForm() {
   const router = useRouter();
+  const setAuth = useAuthStore((state) => state.setAuth);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
@@ -18,7 +20,10 @@ export function LoginForm() {
 
     try {
       const data = await login(email, password);
-      localStorage.setItem("token", data.access_token);
+      // We assume data contains { user, access_token }
+      // For now we just use a placeholder user if the API doesn't return one
+      const user = data.user || { id: "0", name: "User", email: email };
+      setAuth(user, data.access_token);
       router.push("/dashboard");
     } catch (err: any) {
       setError(err.message || "Failed to log in");
