@@ -5,7 +5,8 @@ from app.core.config import settings
 from app.db.session import get_db
 from app.middleware.auth_middleware import get_current_user
 from app.models.user import User
-from app.schemas.auth_schema import AccessTokenResponse, LoginRequest, RegisterRequest, UserPublic
+from app.schemas.auth_schema import AccessTokenResponse, LoginRequest, RegisterRequest
+from app.schemas.user_schema import UserPublic, UserUpdate
 from app.services import auth_service
 
 router = APIRouter()
@@ -83,3 +84,12 @@ def logout(request: Request, response: Response, db: Session = Depends(get_db)) 
 @router.get("/me", response_model=UserPublic)
 def get_me(current_user: User = Depends(get_current_user)) -> UserPublic:
     return UserPublic.model_validate(current_user)
+
+@router.patch("/me", response_model=UserPublic)
+def update_me(payload: UserUpdate, db: Session = Depends(get_db), current_user: User = Depends(get_current_user)) -> UserPublic:
+    update_data = payload.model_dump(exclude_unset=True)
+    if not update_data:
+        return UserPublic.model_validate(current_user)
+    
+    updated_user = auth_service.update_user_profile(db, user=current_user, update_data=update_data)
+    return UserPublic.model_validate(updated_user)

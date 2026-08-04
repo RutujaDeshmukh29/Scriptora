@@ -36,6 +36,12 @@ def register_user(db: Session, *, name: str, email: str, password: str) -> User:
     db.refresh(user)
     return user
 
+def update_user_profile(db: Session, user: User, update_data: dict) -> User:
+    updated_user = user_repository.update(db, user=user, update_data=update_data)
+    db.commit()
+    db.refresh(updated_user)
+    return updated_user
+
 
 def authenticate_user(db: Session, *, email: str, password: str) -> User:
     user = user_repository.get_by_email(db, email)

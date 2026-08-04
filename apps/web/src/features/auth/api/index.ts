@@ -7,9 +7,16 @@ export async function login(email: string, password: string) {
   });
 }
 
-export async function register(email: string, full_name: string, password: string) {
+export async function register(email: string, name: string, password: string) {
   return fetchApi("/auth/register", {
     method: "POST",
-    body: JSON.stringify({ email, full_name, password }),
+    body: JSON.stringify({ email, name, password }),
+  });
+}
+
+export async function updateProfile(data: { name?: string; avatar_url?: string }) {
+  return fetchApi("/auth/me", {
+    method: "PATCH",
+    body: JSON.stringify(data),
   });
 }

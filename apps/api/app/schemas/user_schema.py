@@ -11,3 +11,7 @@ class UserPublic(BaseModel):
     email: EmailStr
     avatar_url: str | None
     theme: str
+
+class UserUpdate(BaseModel):
+    name: str | None = None
+    avatar_url: str | None = None

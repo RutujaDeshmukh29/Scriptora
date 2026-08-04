@@ -19,3 +19,10 @@ def create(db: Session, *, name: str, email: str, password_hash: str) -> User:
     db.add(user)
     db.flush()  # assigns user.id without ending the transaction
     return user
+
+def update(db: Session, user: User, update_data: dict) -> User:
+    for key, value in update_data.items():
+        setattr(user, key, value)
+    db.add(user)
+    db.flush()
+    return user
