@@ -15,6 +15,14 @@ export async function fetchApi(endpoint: string, options: RequestInit = {}) {
   });
 
   if (!response.ok) {
+    if (response.status === 401 && typeof window !== "undefined") {
+      // Auto-logout on 401 Unauthorized
+      localStorage.removeItem("token");
+      document.cookie = "token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+      window.location.href = "/login";
+      throw new Error("Session expired. Please log in again.");
+    }
+    
     let errorMsg = "API Error";
     try {
       const data = await response.json();

@@ -22,12 +22,12 @@ export async function createScript(projectId: string, title?: string): Promise<S
 }
 
 export async function getScript(projectId: string, scriptId: string): Promise<Script> {
-  return fetchApi(`/projects/${projectId}/scripts/${scriptId}`);
+  return fetchApi(`/scripts/${scriptId}`);
 }
 
-export async function updateScript(projectId: string, scriptId: string, content: string): Promise<Script> {
-  return fetchApi(`/projects/${projectId}/scripts/${scriptId}`, {
-    method: "PUT",
-    body: JSON.stringify({ content }),
+export async function updateScript(projectId: string, scriptId: string, data: { title?: string; content?: string }): Promise<Script> {
+  return fetchApi(`/scripts/${scriptId}`, {
+    method: "PATCH",
+    body: JSON.stringify(data),
   });
 }

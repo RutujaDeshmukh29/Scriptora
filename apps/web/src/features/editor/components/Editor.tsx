@@ -22,14 +22,15 @@ export function ScriptEditor({ initialContent, onUpdate, readOnly = false }: Scr
         placeholder: "Start writing your script here...",
       }),
     ],
-    content: initialContent,
+    content: initialContent || "",
     editable: !readOnly,
+    immediatelyRender: false,
     onUpdate: ({ editor }) => {
       onUpdate(editor.getHTML());
     },
     editorProps: {
       attributes: {
-        class: "prose prose-invert prose-indigo max-w-none focus:outline-none min-h-[500px] p-6",
+        class: "prose prose-invert prose-indigo text-white max-w-none focus:outline-none min-h-[500px] p-6",
       },
     },
   });

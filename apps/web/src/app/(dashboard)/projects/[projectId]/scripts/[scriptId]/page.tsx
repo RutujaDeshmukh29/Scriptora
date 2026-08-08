@@ -15,6 +15,7 @@ export default function ScriptEditorPage() {
   const [saving, setSaving] = useState(false);
   const [saveStatus, setSaveStatus] = useState<"idle" | "saving" | "saved">("idle");
   const [content, setContent] = useState("");
+  const [title, setTitle] = useState("");
 
   useEffect(() => {
     async function loadScript() {
@@ -22,6 +23,7 @@ export default function ScriptEditorPage() {
         const data = await getScript(projectId as string, scriptId as string);
         setScript(data);
         setContent(data.content || "");
+        setTitle(data.title || "");
       } catch (err) {
         console.error(err);
       } finally {
@@ -36,7 +38,10 @@ export default function ScriptEditorPage() {
     setSaving(true);
     setSaveStatus("saving");
     try {
-      await updateScript(projectId as string, scriptId as string, htmlToSave || content);
+      await updateScript(projectId as string, scriptId as string, {
+        title: title,
+        content: htmlToSave || content
+      });
       setSaveStatus("saved");
       setTimeout(() => setSaveStatus("idle"), 2000);
     } catch (err) {
@@ -58,14 +63,21 @@ export default function ScriptEditorPage() {
   return (
     <div className="min-h-screen bg-neutral-950 flex flex-col">
       <header className="h-16 bg-neutral-900 border-b border-neutral-800 flex items-center justify-between px-6">
-        <div className="flex items-center gap-4">
+        <div className="flex items-center gap-4 flex-1">
           <Link 
             href={`/projects/${projectId}`}
             className="p-2 rounded-lg text-neutral-400 hover:text-white hover:bg-neutral-800 transition-colors"
           >
             <ArrowLeft className="w-5 h-5" />
           </Link>
-          <h1 className="text-lg font-semibold text-white">{script.title}</h1>
+          <input 
+            type="text"
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+            onBlur={() => handleSave()}
+            className="text-lg font-semibold text-white bg-transparent border-none focus:outline-none focus:ring-1 focus:ring-indigo-500 rounded px-2 py-1 w-full max-w-md transition-all hover:bg-neutral-800/50"
+            placeholder="Untitled Script"
+          />
         </div>
 
         <div className="flex items-center gap-4">
